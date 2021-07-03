@@ -118,15 +118,15 @@ void loop() {
   server.handleClient();
   currentMillis = millis();
   if (currentMillis - startMillis >= period) {
-      light = analogRead(LIGHTSENSORPIN) * 0.9;
+      light = analogRead(LIGHTSENSORPIN) * 0.0976;
       Serial.println(light);  
       startMillis = currentMillis;  
   }
 
   if(lightStatus){
     analogWrite(D5, lightBrightness * 2.6);
-    if(light < lightThreshold){
-      analogWrite(D5, lightBrightness * 2.6);
+    if(light > lightThreshold){
+      lightStatus = 0;
     }
   }else{
     analogWrite(D5, 0);
