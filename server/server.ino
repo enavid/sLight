@@ -27,6 +27,7 @@ ESP8266WebServer server(80);
 //================================== Function decelaration ===================================
 void handleRoot() {
   if (server.args()){
+    server.send(200);
     handleQuery();
   }else{
     server.send(200, "text/html", htmlPage);
