@@ -8,10 +8,14 @@
 #define LIGHTSENSORPIN A0
 #define PWMPIN D5
 
+// Define variable
 unsigned long startMillis;  
 unsigned long currentMillis;
 const unsigned long period = 2000;  
-int Light = 0;
+int light;
+int lightStatus = 0;
+int lightBrightness = 50;
+//int lightThreshold = 50;
 
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);
@@ -33,8 +37,7 @@ void handleJS(){
 }
 
 void handleLight() {
-  String lightString = String(Light);
-  server.send(200, "text/json", "{\"response\":" + lightString + "}"); //Send web page
+  server.send(200, "text/json", "{\"response\":" + String(light) + "}"); //Send web page
 }
 void handleStatus() {
   server.send(200, "text/json", "{\"response\": \"ON\"}");
@@ -91,8 +94,8 @@ void loop() {
   
   currentMillis = millis();
   if (currentMillis - startMillis >= period) {
-      Light = analogRead(LIGHTSENSORPIN);
-      Serial.println(Light);  
+      light = analogRead(LIGHTSENSORPIN);
+      Serial.println(light);  
       startMillis = currentMillis;  
   }
   
