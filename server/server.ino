@@ -14,8 +14,8 @@ unsigned long currentMillis;
 const unsigned long period = 2000;  
 int light;
 int lightStatus = 0;
-int lightBrightness = 50;
-int lightThreshold = 50;
+int lightBrightness = 70;
+int lightThreshold = 20;
 
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);

@@ -20,6 +20,8 @@ setInterval(async function () {
     lampStatus.innerHTML = "Lamp-status = " + status.response;
     brightness.innerHTML = "Lamp-brightness = " + brightnessValue.response + " %";
     threshold.innerHTML = "Light-threshold = " + thresholdValue.response + " %";
+    slider1.value = brightnessValue.response;
+    slider2.value = thresholdValue.response;
 }, 2000);
 
 // Add Event listener to Button and send data to NodeMCU server
