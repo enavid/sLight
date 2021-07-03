@@ -42,6 +42,12 @@ void handleJS(){
 void handleLight() {
   server.send(200, "text/json", "{\"response\":" + String(light) + "}"); //Send web page
 }
+void handleLightThreshold() {
+  server.send(200, "text/json", "{\"response\":" + String(lightThreshold) + "}"); //Send web page
+}
+void handleLightBrightness() {
+  server.send(200, "text/json", "{\"response\":" + String(lightBrightness) + "}"); //Send web page
+}
 void handleStatus() {
   if(lightStatus == 0){
     server.send(200, "text/json", "{\"response\": \"OFF\"}");
@@ -52,15 +58,11 @@ void handleStatus() {
 }
 void handleQuery(){
   if (server.hasArg("threshold")) {
-      Serial.println("lightThreshold");
       lightThreshold = server.arg("threshold").toInt();
-      Serial.println(lightThreshold);
       // analogWrite(D5, result);
     }
   if(server.hasArg("brightness")){
     lightBrightness = server.arg("brightness").toInt();
-    Serial.println("lightBrightness");
-    Serial.println(lightBrightness);
   }
   if(server.hasArg("lamp")){
     if(server.arg("lamp").toInt() == 1){
@@ -69,8 +71,6 @@ void handleQuery(){
     if(server.arg("lamp").toInt() == 0){
       lightStatus = 0;
     }
-    Serial.println("lightStatus");
-    Serial.println(lightStatus);
   }
 }
 
@@ -87,8 +87,8 @@ void setup() {
 
   //WiFi.config(staticIP, gateway, subnet);
 
-  //WiFi.begin("Navid", "wWw.shatel.@com");
-  WiFi.begin("quadrotor", "12345678");
+  WiFi.begin("Navid", "wWw.shatel.@com");
+  
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -105,6 +105,8 @@ void setup() {
   server.on("/app.js", handleJS);
   server.on("/light", handleLight);
   server.on("/status", handleStatus);
+  server.on("/lightThreshold", handleLightThreshold);
+  server.on("/lightBrightness", handleLightBrightness);
   server.begin();
   Serial.println("HTTP server started");
   
@@ -121,7 +123,4 @@ void loop() {
       //Serial.println(light);  
       startMillis = currentMillis;  
   }
-  
-  
- 
 }
