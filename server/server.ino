@@ -15,7 +15,7 @@ const unsigned long period = 2000;
 int light;
 int lightStatus = 0;
 int lightBrightness = 50;
-//int lightThreshold = 50;
+int lightThreshold = 50;
 
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);
@@ -26,8 +26,11 @@ ESP8266WebServer server(80);
 
 //================================== Function decelaration ===================================
 void handleRoot() {
-  server.send(200, "text/html", htmlPage);
-  handleQuery();
+  if (server.args()){
+    handleQuery();
+  }else{
+    server.send(200, "text/html", htmlPage);
+  }
 }
 void handleCSS(){
   server.send(200, "text/css", stylePage);
@@ -40,16 +43,35 @@ void handleLight() {
   server.send(200, "text/json", "{\"response\":" + String(light) + "}"); //Send web page
 }
 void handleStatus() {
-  server.send(200, "text/json", "{\"response\": \"ON\"}");
+  if(lightStatus == 0){
+    server.send(200, "text/json", "{\"response\": \"OFF\"}");
+  }else{
+    server.send(200, "text/json", "{\"response\": \"ON\"}");
+  }
+  
 }
 void handleQuery(){
-  if (server.arg("threshold")) {
-      int result = server.arg("threshold").toInt() * 2.5 ;
-      Serial.println(result);
-      analogWrite(D5, result);
+  if (server.hasArg("threshold")) {
+      Serial.println("lightThreshold");
+      lightThreshold = server.arg("threshold").toInt();
+      Serial.println(lightThreshold);
+      // analogWrite(D5, result);
     }
-    Serial.println(server.arg("brightness"));
-    Serial.println(server.arg("lamp"));
+  if(server.hasArg("brightness")){
+    lightBrightness = server.arg("brightness").toInt();
+    Serial.println("lightBrightness");
+    Serial.println(lightBrightness);
+  }
+  if(server.hasArg("lamp")){
+    if(server.arg("lamp").toInt() == 1){
+      lightStatus = 1;
+    }
+    if(server.arg("lamp").toInt() == 0){
+      lightStatus = 0;
+    }
+    Serial.println("lightStatus");
+    Serial.println(lightStatus);
+  }
 }
 
 
@@ -65,7 +87,8 @@ void setup() {
 
   //WiFi.config(staticIP, gateway, subnet);
 
-  WiFi.begin("Navid", "wWw.shatel.@com");
+  //WiFi.begin("Navid", "wWw.shatel.@com");
+  WiFi.begin("quadrotor", "12345678");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -95,7 +118,7 @@ void loop() {
   currentMillis = millis();
   if (currentMillis - startMillis >= period) {
       light = analogRead(LIGHTSENSORPIN);
-      Serial.println(light);  
+      //Serial.println(light);  
       startMillis = currentMillis;  
   }
   

@@ -21,10 +21,10 @@ setInterval(async function () {
 
 // Add Event listener to Button and send data to NodeMCU server
 onButton.addEventListener('click', () => {
-    fetch("?lamp=ON", { mode: 'no-cors', method: 'POST' });
+    fetch("?lamp=1", { mode: 'no-cors', method: 'POST' });
 })
 offButton.addEventListener('click', () => {
-    fetch("?lamp=OFF", { mode: 'no-cors', method: 'POST' });
+    fetch("?lamp=0", { mode: 'no-cors', method: 'POST' });
 })
 
 // Add event listener to element
