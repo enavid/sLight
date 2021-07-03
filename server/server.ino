@@ -12,10 +12,10 @@
 unsigned long startMillis;  
 unsigned long currentMillis;
 const unsigned long period = 2000;  
-int light;
+float light;
 int lightStatus = 0;
-int lightBrightness = 70;
-int lightThreshold = 20;
+int lightBrightness = 50;
+int lightThreshold = 50;
 
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);
@@ -60,7 +60,6 @@ void handleStatus() {
 void handleQuery(){
   if (server.hasArg("threshold")) {
       lightThreshold = server.arg("threshold").toInt();
-      // analogWrite(D5, result);
     }
   if(server.hasArg("brightness")){
     lightBrightness = server.arg("brightness").toInt();
@@ -117,11 +116,23 @@ void setup() {
 void loop() {
   
   server.handleClient();
-  
   currentMillis = millis();
   if (currentMillis - startMillis >= period) {
-      light = analogRead(LIGHTSENSORPIN);
-      //Serial.println(light);  
+      light = analogRead(LIGHTSENSORPIN) * 0.9;
+      Serial.println(light);  
       startMillis = currentMillis;  
   }
+
+  if(lightStatus){
+    analogWrite(D5, lightBrightness * 2.6);
+    if(light < lightThreshold){
+      analogWrite(D5, lightBrightness * 2.6);
+    }
+  }else{
+    analogWrite(D5, 0);
+  }
+
+
+
+  
 }

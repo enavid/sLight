@@ -16,7 +16,7 @@ setInterval(async function () {
         fetch(url).then(resp => resp.json())
     ));
     
-    Illuminance.innerHTML = "Illuminance = " + light.response + " lux";
+    Illuminance.innerHTML = "Illuminance = " + light.response + " %";
     lampStatus.innerHTML = "Lamp-status = " + status.response;
     brightness.innerHTML = "Lamp-brightness = " + brightnessValue.response + " %";
     threshold.innerHTML = "Light-threshold = " + thresholdValue.response + " %";

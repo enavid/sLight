@@ -23,7 +23,7 @@ const char htmlPage[] PROGMEM = R"=====(
             <div id="light-information">
                 <div class="info-1">
                     <p id="light-threshold">Light-threshold = 50 %</p>
-                    <p id="Illuminance">Illuminance = 0 lux</p>
+                    <p id="Illuminance">Illuminance = 0 %</p>
                 </div>
                 <div class="info-2">
                     <p id="lamp-brightness">Lamp-brightness = 50 %</p>
