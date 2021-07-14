@@ -21,7 +21,7 @@ int lightStatus = 0;
 int lightBrightness = 50;
 int lightThreshold = 50;
 int stateWork = 1; //0 for Register state 1 for normal state
-int stateReponse = 0; //0 send login page 1 send normal page;
+
 
 String userName = "admin";
 String password = "admin";
@@ -36,42 +36,43 @@ ESP8266WebServer server(80);
 //================================== Function decelaration ===================================
 
 //************************************* handle Function8 ***********************************
-void handleIndex(){
-  if(stateReponse == 0)return server.send(200, "text/html", loginIndex);
-  if(stateReponse == 1)return server.send(200, "text/html", htmlPage);
-}
+void handleIndex(){server.send(200, "text/html", htmlPage);}
+void handleCSS(){ server.send(200, "text/css", stylePage);}
+void handleJS(){server.send(200, "text/js", appJS);}
 
-void handleCSS(){
-  if(stateReponse == 0)return server.send(200, "text/css", loginStyle);
-  if(stateReponse == 1)return server.send(200, "text/css", stylePage);
-  
-}
-void handleJS(){
-  if(stateReponse == 0)return server.send(200, "text/js", loginJS);
-  if(stateReponse == 1)return server.send(200, "text/js", appJS);
-}
+void handleLoginPage(){server.send(200, "text/html", loginIndex);}
+void handleLoginCSS(){server.send(200, "text/css", loginStyle);}
+void handleLoginJS(){server.send(200, "text/js", loginJS);}
+
+void handleResponse(){if(!handleRootQuery())handleIndex();}
 
 void handleRoot() {
-  server.args()? server.send(200), handleRootQuery(): handleIndex();
+  String username = server.arg("username");
+  String password = server.arg("password");
+  if(username.isEmpty()|| password.isEmpty()) return handleLoginPage();
+ 
+  authorizationUser(username, password) ? handleResponse() : server.send(403);
+  //server.args()? server.send(200), handleRootQuery(): handleIndex();
 }
-//************************************* handle Function ***********************************
+//************************************* Handle Function ***********************************
 
-void handleRootQuery(){
-     Serial.println(server.arg("password"));
-     Serial.println(server.arg("username"));
-  
-  if (server.hasArg("threshold")) lightThreshold = server.arg("threshold").toInt();
-  if(server.hasArg("brightness")) lightBrightness = server.arg("brightness").toInt();
-  
+bool handleRootQuery(){
+  if(server.hasArg("threshold")) {
+    lightThreshold = server.arg("threshold").toInt();
+    return true;
+   }
+  if(server.hasArg("brightness")) {
+    lightBrightness = server.arg("brightness").toInt();
+    return true;
+   }
   if(server.hasArg("lamp")){
     if(server.arg("lamp").toInt() == 1) lightStatus = 1;
-    if(server.arg("lamp").toInt() == 0) lightStatus = 0; 
+    if(server.arg("lamp").toInt() == 0) lightStatus = 0;
+    return true; 
   }
+  
+  return false;
 }
-
-
-
-
 
 
 void handleLight() {
@@ -93,8 +94,8 @@ void handleStatus() {
 }
 
 
-bool authorizationUser(String username, String password){
-  return userName.equals(username) && password.equals(password);
+bool authorizationUser(String user, String pass){
+  return userName.equals(user) && password.equals(pass);
 }
 
 
@@ -104,7 +105,6 @@ void setup() {
 
   Serial.begin(115200);
   Serial.println();
-
 
   analogWriteFreq(55);
 
@@ -124,8 +124,13 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   server.on("/", handleRoot);
+  
   server.on("/style.css", handleCSS);
+  server.on("/login.css", handleLoginCSS);
+  
   server.on("/app.js", handleJS);
+  server.on("/login.js", handleLoginJS);
+  
   server.on("/light", handleLight);
   server.on("/status", handleStatus);
   server.on("/lightThreshold", handleLightThreshold);

@@ -7,7 +7,7 @@ const char loginIndex[] PROGMEM = R"=====(
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login page</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./login.css">
 </head>
 
 <body>
@@ -26,7 +26,7 @@ const char loginIndex[] PROGMEM = R"=====(
             <button type="submit" id="login">Login</button>
         </div>
     </form>
-    <script src="./app.js"></script>
+    <script src="./login.js"></script>
 </body>
 
 </html>
