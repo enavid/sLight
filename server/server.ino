@@ -1,9 +1,9 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-#import "./client/index.h"
-#import "./client/app.h"
-#import "./client/style.h"
+#import "./client/index/index.h"
+#import "./client/index/app.h"
+#import "./client/index/style.h"
 
 #define LIGHTSENSORPIN A0
 #define PWMPIN D5
