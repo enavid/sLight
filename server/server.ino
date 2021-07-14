@@ -1,6 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
+#import "./clinet/login/loginIndex.h"
+#import "./clinet/login/loginStyle.h"
+#import "./clinet/login/loginJS.h"
+
 #import "./client/index/index.h"
 #import "./client/index/app.h"
 #import "./client/index/style.h"
