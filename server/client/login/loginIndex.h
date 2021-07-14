@@ -1,3 +1,4 @@
+const char loginIndex[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,3 +30,4 @@
 </body>
 
 </html>
+)=====";

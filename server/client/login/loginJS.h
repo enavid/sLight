@@ -1,3 +1,4 @@
+const char loginJS[] PROGMEM = R"=====(
 const get = document.getElementById.bind(document);
 const button = get('login');
 const user = get('username');
@@ -11,3 +12,4 @@ button.addEventListener('click', (e) => {
     if (username === '' || password === '') return alert('Please Check your input');
 
 })
+)=====";
