@@ -20,6 +20,11 @@ float light;
 int lightStatus = 0;
 int lightBrightness = 50;
 int lightThreshold = 50;
+int stateWork = 1; //0 for Register state 1 for normal state
+int stateReponse = 1; //0 send login page 1 send normal page;
+
+String userName = "admin";
+String password = "admin";
 
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);
@@ -29,20 +34,46 @@ ESP8266WebServer server(80);
 
 
 //================================== Function decelaration ===================================
-void handleRoot() {
-  if (server.args()){
-    server.send(200);
-    handleQuery();
-  }else{
-    server.send(200, "text/html", htmlPage);
-  }
+
+//************************************* handle Function8 ***********************************
+void handleIndex(){
+  if(stateReponse == 0)return server.send(200, "text/html", loginIndex);
+  if(stateReponse == 1)return server.send(200, "text/html", htmlPage);
 }
+
 void handleCSS(){
-  server.send(200, "text/css", stylePage);
+  if(stateReponse == 0)return server.send(200, "text/css", loginStyle);
+  if(stateReponse == 1)return server.send(200, "text/css", stylePage);
+  
 }
 void handleJS(){
-  server.send(200, "text/js", appJS);
+  if(stateReponse == 0)return server.send(200, "text/js", loginJS);
+  if(stateReponse == 1)return server.send(200, "text/js", appJS);
 }
+
+void handleRoot() {
+  server.args()? server.send(200), handleRootQuery(): handleIndex();
+ 
+}
+//************************************* handle Function ***********************************
+
+void handleRootQuery(){
+     Serial.println(server.arg("password"));
+     Serial.println(server.arg("username"));
+  
+  if (server.hasArg("threshold")) lightThreshold = server.arg("threshold").toInt();
+  if(server.hasArg("brightness")) lightBrightness = server.arg("brightness").toInt();
+  
+  if(server.hasArg("lamp")){
+    if(server.arg("lamp").toInt() == 1) lightStatus = 1;
+    if(server.arg("lamp").toInt() == 0) lightStatus = 0; 
+  }
+}
+
+
+
+
+
 
 void handleLight() {
   server.send(200, "text/json", "{\"response\":" + String(light) + "}"); //Send web page
@@ -61,21 +92,14 @@ void handleStatus() {
   }
   
 }
-void handleQuery(){
-  if (server.hasArg("threshold")) {
-      lightThreshold = server.arg("threshold").toInt();
-    }
-  if(server.hasArg("brightness")){
-    lightBrightness = server.arg("brightness").toInt();
-  }
-  if(server.hasArg("lamp")){
-    if(server.arg("lamp").toInt() == 1){
-      lightStatus = 1;
-    }
-    if(server.arg("lamp").toInt() == 0){
-      lightStatus = 0;
-    }
-  }
+
+
+bool authorizationUser(String username, String password){
+  return userName.equals(username) && password.equals(password);
+}
+
+int checkStateResponse(){
+  
 }
 
 
@@ -136,7 +160,4 @@ void loop() {
     analogWrite(D5, 0);
   }
 
-
-
-  
 }
