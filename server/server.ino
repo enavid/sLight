@@ -22,9 +22,8 @@ int lightBrightness = 50;
 int lightThreshold = 50;
 int stateWork = 1; //0 for Register state 1 for normal state
 
-
-String userName = "admin";
-String password = "admin";
+const char* www_username = "admin";
+const char* www_password = "admin";
 
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);
@@ -32,10 +31,8 @@ IPAddress subnet(255, 255, 255, 0);
 
 ESP8266WebServer server(80);
 
-
 //================================== Function decelaration ===================================
 
-//************************************* handle Function8 ***********************************
 void handleIndex(){server.send(200, "text/html", htmlPage);}
 void handleCSS(){ server.send(200, "text/css", stylePage);}
 void handleJS(){server.send(200, "text/js", appJS);}
@@ -47,12 +44,14 @@ void handleLoginJS(){server.send(200, "text/js", loginJS);}
 void handleResponse(){if(!handleRootQuery())handleIndex();}
 
 void handleRoot() {
-  String username = server.arg("username");
-  String password = server.arg("password");
-  if(username.isEmpty()|| password.isEmpty()) return handleLoginPage();
- 
-  authorizationUser(username, password) ? handleResponse() : server.send(403);
-  //server.args()? server.send(200), handleRootQuery(): handleIndex();
+  Serial.println(server.header("Authorization"));
+   Serial.println(server.authenticate(www_username, www_password));
+  if (!server.authenticate(www_username, www_password)) {
+    return handleLoginPage();
+  }
+  
+ //handleResponse();
+//  authorizationUser(username, password) ? handleResponse() : server.send(403);
 }
 //************************************* Handle Function ***********************************
 
@@ -74,30 +73,24 @@ bool handleRootQuery(){
   return false;
 }
 
-
 void handleLight() {
-  server.send(200, "text/json", "{\"response\":" + String(light) + "}"); //Send web page
+  server.send(200, "text/json", "{\"response\":" + String(light) + "}"); 
 }
 void handleLightThreshold() {
-  server.send(200, "text/json", "{\"response\":" + String(lightThreshold) + "}"); //Send web page
+  server.send(200, "text/json", "{\"response\":" + String(lightThreshold) + "}"); 
 }
 void handleLightBrightness() {
-  server.send(200, "text/json", "{\"response\":" + String(lightBrightness) + "}"); //Send web page
+  server.send(200, "text/json", "{\"response\":" + String(lightBrightness) + "}"); 
 }
 void handleStatus() {
-  if(lightStatus == 0){
-    server.send(200, "text/json", "{\"response\": \"OFF\"}");
-  }else{
+  lightStatus == 0 ?
+    server.send(200, "text/json", "{\"response\": \"OFF\"}"):
     server.send(200, "text/json", "{\"response\": \"ON\"}");
-  }
-  
 }
-
-
-bool authorizationUser(String user, String pass){
-  return userName.equals(user) && password.equals(pass);
-}
-
+//
+//bool authorizationUser(String user, String pass){
+//  return userName.equals(user) && password.equals(pass);
+//}
 
 //  ================================= setup function ====================================
 void setup() {
