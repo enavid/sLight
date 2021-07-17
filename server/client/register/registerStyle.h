@@ -1,3 +1,4 @@
+const char registerStyle[] PROGMEM=R"=====(
 body {
     display: flex;
     justify-content: center;
@@ -54,3 +55,5 @@ span.psw {
     float: right;
     padding-top: 16px;
 }
+
+)=====";

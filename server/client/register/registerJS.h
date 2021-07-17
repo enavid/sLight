@@ -1,3 +1,4 @@
+const char registerJS[] PROGMEM = R"=====(
 const get = document.getElementById.bind(document);
 const button = get('submit');
 const user = get('username');
@@ -17,3 +18,5 @@ button.addEventListener('click', (e) => {
     if (password !== confirmPassword) return alert('Your password dont match!');
 
 })
+
+)===== ";
