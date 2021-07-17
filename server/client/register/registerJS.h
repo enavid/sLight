@@ -18,5 +18,4 @@ button.addEventListener('click', (e) => {
     if (password !== confirmPassword) return alert('Your password dont match!');
 
 })
-
-)===== ";
+)=====";
