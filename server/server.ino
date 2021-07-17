@@ -1,6 +1,11 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
+//***************************************** Add external file to programm ************************
+#import "./client/register/registerIndex.h"
+#import "./client/register/registerStyle.h"
+#import "./client/register/registerJS.h"
+
 #import "./client/login/loginIndex.h"
 #import "./client/login/loginStyle.h"
 #import "./client/login/loginJS.h"
