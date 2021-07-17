@@ -31,6 +31,11 @@ int stateWork = 1; //0 for Register state 1 for normal state
 const char* www_username = "admin";
 const char* www_password = "admin";
 
+String _username = "admin";
+String _password = "admin";
+String _ssid     = "navid";
+String _ssidPass = "wWw.shatel.@com";
+
 IPAddress staticIP(192, 168, 1, 50);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -50,6 +55,20 @@ void handleLoginCSS(){server.send(200, "text/css", loginStyle);}
 void handleLoginJS(){server.send(200, "text/js", loginJS);}
 
 void handleRegisterPage(){server.send(200, "text/html", registerIndex);}
+void handleRegisterQuery(){
+  if(server.hasArg("username")) _username = server.arg("username");
+  if(server.hasArg("password")) _password = server.arg("password");
+  if(server.hasArg("ssid"))     _ssid     = server.arg("ssid");
+  if(server.hasArg("ssidpass")) _ssidPass = server.arg("ssidpass");
+
+  Serial.println(server.arg("username"));
+  Serial.println(server.arg("password"));
+  Serial.println(server.arg("ssid"));
+  Serial.println(server.arg("ssidpass"));
+
+  server.send(202);
+}
+  
 void handleRegisterCSS(){server.send(200, "text/css", registerStyle);}
 void handleRegisterJS(){server.send(200, "text/js", registerJS);}
 
@@ -134,21 +153,23 @@ void setup() {
   Serial.println(WiFi.localIP());
   
 //======================================== Handle web root call ===========================
-  // handle root request
+  //Handle root request
   server.on("/", handleRoot);
   server.on("/main", handleMain);
+  server.on("/register", handleRegisterPage);
+  server.on("/register-data", handleRegisterQuery);
 
-  //handle css request
+  //Handle css request
   server.on("/style.css", handleCSS);
   server.on("/login.css", handleLoginCSS);
   server.on("/register.css", handleRegisterCSS);
   
-  // handle javascript request
+  //Handle javascript request
   server.on("/app.js", handleJS);
   server.on("/login.js", handleLoginJS);
-  server.on("/register.js", handleRegisterCSS);
+  server.on("/register.js", handleRegisterJS);
   
-  // query data
+  //Query data
   server.on("/light", handleLight);
   server.on("/status", handleStatus);
   server.on("/lightThreshold", handleLightThreshold);

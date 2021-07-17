@@ -1,4 +1,4 @@
-const char registerStyle[] PROGMEM=R"=====(
+const char registerStyle[] PROGMEM = R"=====(
 body {
     display: flex;
     justify-content: center;
