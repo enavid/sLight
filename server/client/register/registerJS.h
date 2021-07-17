@@ -14,16 +14,16 @@ button.addEventListener('click', (e) => {
     const confirmPassword = confirmPass.value;
     const ssidName = ssid.value;
     const ssidPassword = ssidPass.value;
-    //if (username === '' || password === '' || confirmPassword === '' || ssidName === '' || ssidPassword === '') return alert('Please Check your input');
+    if (username === '' || password === '' || confirmPassword === '' || ssidName === '' || ssidPassword === '') return alert('Please Check your input');
     if (password !== confirmPassword) return alert('Your password dont match!');
 
     const url = location.href + '-data?' + `username=${username}&password=${password}&ssid=${ssidName}&ssidpass=${ssidPassword}`;
-    console.log(url);
 
     fetch(url, {
         method: 'POST'
     }).then(res => {
-        if (res.status === 202) return alert('Data is set!')
+        if (res.status === 202) return alert('Data set successfully!')
+        else return alert('Try agin !');
     })
 })
 )=====";
