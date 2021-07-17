@@ -17,7 +17,8 @@
 #define LIGHTSENSORPIN A0
 #define PWMPIN D5
 
-// Define variable
+
+//***************************************** Define global variable ************************
 unsigned long startMillis;  
 unsigned long currentMillis;
 const unsigned long period = 2000;  
@@ -38,6 +39,8 @@ ESP8266WebServer server(80);
 
 //================================== Function decelaration ===================================
 
+//******************************** Define web handle root function ************************
+
 void handleIndex(){server.send(200, "text/html", htmlPage);}
 void handleCSS(){ server.send(200, "text/css", stylePage);}
 void handleJS(){server.send(200, "text/js", appJS);}
@@ -45,6 +48,10 @@ void handleJS(){server.send(200, "text/js", appJS);}
 void handleLoginPage(){server.send(200, "text/html", loginIndex);}
 void handleLoginCSS(){server.send(200, "text/css", loginStyle);}
 void handleLoginJS(){server.send(200, "text/js", loginJS);}
+
+void handleRegisterPage(){server.send(200, "text/html", registerIndex);}
+void handleRegisterCSS(){server.send(200, "text/css", registerStyle);}
+void handleRegisterJS(){server.send(200, "text/js", registerJS);}
 
 void handleMain(){
   handleIndex();
@@ -125,20 +132,31 @@ void setup() {
   Serial.println();
   Serial.print("Connected , Ip address: ");
   Serial.println(WiFi.localIP());
-
+  
+//======================================== Handle web root call ===========================
+  // handle root request
   server.on("/", handleRoot);
   server.on("/main", handleMain);
+
+  //handle css request
   server.on("/style.css", handleCSS);
   server.on("/login.css", handleLoginCSS);
+  server.on("/register.css", handleRegisterCSS);
   
+  // handle javascript request
   server.on("/app.js", handleJS);
   server.on("/login.js", handleLoginJS);
+  server.on("/register.js", handleRegisterCSS);
   
+  // query data
   server.on("/light", handleLight);
   server.on("/status", handleStatus);
   server.on("/lightThreshold", handleLightThreshold);
   server.on("/lightBrightness", handleLightBrightness);
+  
   server.begin();
+
+  
   Serial.println("HTTP server started");
   
   startMillis = millis();  
