@@ -10,18 +10,16 @@ button.addEventListener('click', (e) => {
     const password = pass.value;
 
     if (username === '' || password === '') return alert('Please Check your input');
-    const result = fetch('/', {
+    fetch('/', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain',
             'Authorization': 'Basic ' + btoa(`${username}:${password}`)
         }
     }).then(res => {
-        console.log(res);
-        if (result.status === 403) return alert('user or password is wron !');
-        if (result.status === 200) window.location = result.url;
-    })
-    console.log(btoa(`${username}:${password}`))
-
+        if (res.status === 403) return alert('user or password is wrong !');
+        res.json();
+        // location.href = res.url + 'main';
+    }).then(res => console.log(res))
 })
 )=====";

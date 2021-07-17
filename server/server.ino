@@ -41,17 +41,22 @@ void handleLoginPage(){server.send(200, "text/html", loginIndex);}
 void handleLoginCSS(){server.send(200, "text/css", loginStyle);}
 void handleLoginJS(){server.send(200, "text/js", loginJS);}
 
-void handleResponse(){if(!handleRootQuery())handleIndex();}
+void handleMain(){
+  handleIndex();
+}
+
+void handleResponse(){
+  if(!handleRootQuery()){
+    handleIndex();
+  }
+}
 
 void handleRoot() {
   Serial.println(server.header("Authorization"));
-   Serial.println(server.authenticate(www_username, www_password));
-  if (!server.authenticate(www_username, www_password)) {
-    return handleLoginPage();
-  }
+  if(!server.hasHeader("Authorization")){return handleLoginPage();}
   
- //handleResponse();
-//  authorizationUser(username, password) ? handleResponse() : server.send(403);
+  server.authenticate(www_username, www_password)? handleResponse() : server.send(403);
+  
 }
 //************************************* Handle Function ***********************************
 
@@ -117,7 +122,7 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   server.on("/", handleRoot);
-  
+  server.on("/main", handleMain);
   server.on("/style.css", handleCSS);
   server.on("/login.css", handleLoginCSS);
   
