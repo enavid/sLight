@@ -8,8 +8,8 @@ String __pass;
 
 // main page
 void handleIndex(){server.send(200, "text/html", htmlPage);}
-void handleCSS()  {server.send(200, "text/css", stylePage);}
-void handleJS()   {server.send(200, "text/js", appJS);}
+void handleCSS(){server.send(200, "text/css", stylePage);}
+void handleJS(){server.send(200, "text/js", appJS);}
 
 // login page
 void handleLoginPage(){server.send(200, "text/html", loginIndex);}
@@ -20,6 +20,7 @@ void handleLoginJS()  {server.send(200, "text/js", loginJS);}
 void handleRegisterPage(){server.send(200, "text/html", registerIndex);}
 void handleRegisterCSS() {server.send(200, "text/css", registerStyle);}
 void handleRegisterJS()  {server.send(200, "text/js", registerJS);}
+//******************************************************************************************************
 
 // register data qeury
 void handleRegisterQuery(){
@@ -53,32 +54,18 @@ void handleRegisterQuery(){
   ESP.restart();
 }
   
-void handleMain(){handleIndex();}
-void handleResponse(){if(!handleRootQuery()){handleIndex();}}
-
-void handleRoot() {
-  Serial.println(server.header("Authorization"));
-  if(!server.hasHeader("Authorization")){return handleLoginPage();}
-  
-  //server.authenticate(_username, _password)? handleResponse() : server.send(403);
-}
-
-bool handleRootQuery(){
+void handleRootQuery(){
+  server.send(200);
   if(server.hasArg("threshold")) {
     lightThreshold = server.arg("threshold").toInt();
-    return true;
    }
   if(server.hasArg("brightness")) {
     lightBrightness = server.arg("brightness").toInt();
-    return true;
    }
   if(server.hasArg("lamp")){
     if(server.arg("lamp").toInt() == 1) lightStatus = 1;
     if(server.arg("lamp").toInt() == 0) lightStatus = 0;
-    return true; 
   }
-  
-  return false;
 }
 
 void handleLight() {

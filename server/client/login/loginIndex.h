@@ -1,6 +1,6 @@
 const char loginIndex[] PROGMEM = R"=====(
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id='test'>
 
 <head>
     <meta charset="UTF-8">

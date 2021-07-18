@@ -3,6 +3,7 @@ const get = document.getElementById.bind(document);
 const button = get('login');
 const user = get('username');
 const pass = get('password');
+const na = get('test');
 
 button.addEventListener('click', (e) => {
     e.preventDefault();
@@ -17,9 +18,10 @@ button.addEventListener('click', (e) => {
             'Authorization': 'Basic ' + btoa(`${username}:${password}`)
         }
     }).then(res => {
+        
         if (res.status === 403) return alert('user or password is wrong !');
-        res.json();
-        // location.href = res.url + 'main';
-    }).then(res => console.log(res))
+        //location.href = res.url + `?username=${username}&password=${password}`;
+        console.log(res.url + `?username=${username}&password=${password}`);
+    })
 })
 )=====";

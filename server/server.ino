@@ -77,8 +77,9 @@ if(_stateWork == 0 ){
 }
 else if(_stateWork == 1){
   //Handle root request
-  server.on("/", handleRoot);
-  server.on("/main", handleMain);
+  server.on("/", handleIndex);
+  server.on("/data", handleRootQuery);
+  server.on("/login", handleLoginPage);
   server.on("/register", handleRegisterPage);
   server.on("/register/setdata", handleRegisterQuery);
 

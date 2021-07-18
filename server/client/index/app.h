@@ -26,10 +26,10 @@ setInterval(async function () {
 
 // Add Event listener to Button and send data to NodeMCU server
 onButton.addEventListener('click', () => {
-    fetch("?lamp=1", { mode: 'no-cors', method: 'POST' });
+    fetch("data?lamp=1", { mode: 'no-cors', method: 'POST' });
 })
 offButton.addEventListener('click', () => {
-    fetch("?lamp=0", { mode: 'no-cors', method: 'POST' });
+    fetch("data?lamp=0", { mode: 'no-cors', method: 'POST' });
 })
 
 // Add event listener to element
@@ -43,11 +43,11 @@ slider2.addEventListener('input', () => {
 
 // Send event listener data to NodeMCU server
 slider1.addEventListener('change', () => {
-    fetch("?brightness=" + slider1.value, { mode: 'no-cors', method: 'POST' });
+    fetch("data?brightness=" + slider1.value, { mode: 'no-cors', method: 'POST' });
 });
 
 slider2.addEventListener('change', () => {
-    fetch("?threshold=" + slider2.value, { mode: 'no-cors', method: 'POST' });
+    fetch("data?threshold=" + slider2.value, { mode: 'no-cors', method: 'POST' });
 });
 
 )=====";
