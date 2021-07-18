@@ -5,7 +5,7 @@
 #define LIGHTSENSORPIN A0
 #define PWMPIN D5
 
-//***************************************** Add external file to programm ************************
+//********************************* Add external file to programm ************************
 #import "./client/register/registerIndex.h"
 #import "./client/register/registerStyle.h"
 #import "./client/register/registerJS.h"
@@ -42,11 +42,6 @@ IPAddress subnet  (255, 255, 255, 0);
 
 ESP8266WebServer server(80);
 
-
-
-
-
-
 //  ================================= setup function ====================================
 void setup() {
   
@@ -63,7 +58,7 @@ void setup() {
   String _pass     = read_String(150);
 
 //************************** Set up wirelless *************************
-  Serial.println();
+  
 
   //WiFi.config(staticIP, gateway, subnet);
 
@@ -89,8 +84,6 @@ void setup() {
 //  writeString(150, "wWw.shatel.@com");
 //  delay(200);
 
- 
-  
   Serial.println(_username);
   Serial.println(_password);
   Serial.println(_ssid);
@@ -117,10 +110,10 @@ void setup() {
   server.on("/status", handleStatus);
   server.on("/lightThreshold", handleLightThreshold);
   server.on("/lightBrightness", handleLightBrightness);
-  
-  server.begin();
 
-  
+
+  // Begin server
+  server.begin();
   Serial.println("HTTP server started");
   
   startMillis = millis();  

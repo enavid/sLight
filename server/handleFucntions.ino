@@ -1,23 +1,28 @@
 //******************************** Define web handle root function ************************
 
+// main page
 void handleIndex(){server.send(200, "text/html", htmlPage);}
 void handleCSS(){ server.send(200, "text/css", stylePage);}
 void handleJS(){server.send(200, "text/js", appJS);}
 
+// login page
 void handleLoginPage(){server.send(200, "text/html", loginIndex);}
 void handleLoginCSS(){server.send(200, "text/css", loginStyle);}
 void handleLoginJS(){server.send(200, "text/js", loginJS);}
 
+// register page
 void handleRegisterPage(){server.send(200, "text/html", registerIndex);}
 void handleRegisterCSS(){server.send(200, "text/css", registerStyle);}
 void handleRegisterJS(){server.send(200, "text/js", registerJS);}
 
+// register data qeury
 void handleRegisterQuery(){
   if(server.hasArg("username")) _default_username = server.arg("username");
   if(server.hasArg("password")) _default_password = server.arg("password");
   if(server.hasArg("ssid"))     _default_ssid     = server.arg("ssid");
   if(server.hasArg("ssidpass")) _default_pass     = server.arg("ssidpass");
 
+  Serial.println("==============resieve data=================");
   Serial.println(server.arg("username"));
   Serial.println(server.arg("password"));
   Serial.println(server.arg("ssid"));
