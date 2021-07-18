@@ -22,15 +22,7 @@ void connetToWifi(String ssid, String password, String hostName){
   Serial.println(WiFi.localIP());
 }
 
-void createAccessPoint(){
-  Serial.println();
-
-  Serial.print("Setting soft-AP configuration ... ");
-  Serial.println(WiFi.softAPConfig(local_IP, gateway, subnet) ? "Ready" : "Failed!");
-
-  Serial.print("Setting soft-AP ... ");
-  Serial.println(WiFi.softAP("smart light") ? "Ready" : "Failed!");
-
-  Serial.print("Soft-AP IP address = ");
-  Serial.println(WiFi.softAPIP());
+void createAccessPoint(String accessPoint){
+  WiFi.softAPConfig(local_IP, gateway, subnet);
+  WiFi.softAP(accessPoint);
 }

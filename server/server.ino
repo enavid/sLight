@@ -1,4 +1,3 @@
-#include <EEPROM.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
@@ -18,8 +17,8 @@
 #import "./client/index/app.h"
 #import "./client/index/style.h"
 
-#import "eepromFunction.h"
-#import "manageNetwork.h"
+#import "./utilities/eepromFunction.h"
+#import "./utilities/manageNetwork.h"
 
 //***************************************** Define global variable ************************
 
@@ -38,8 +37,6 @@ unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 2000; 
 
-
-
 ESP8266WebServer server(80);
 
 //  ================================= setup function ====================================
@@ -56,18 +53,14 @@ void setup() {
   _password  = read_String(50);
   _ssid      = read_String(100);
   _pass      = read_String(150);
-  _stateWork = EEPROM.read(200);
+  _stateWork = readInteger(200);
   
 //************************** Set up Access point *************************
 
-// state work = 0 for create Access point
-if(_stateWork == 0 ){ createAccessPoint();}
-// state work = 1 for connect to home wirelless network
-if(_stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
-
-
-// ======================================= wirte EEPROM  ===================================  
-
+  // state work = 0 for create Access point
+  if(_stateWork == 0 ){ createAccessPoint("smart light");}
+  // state work = 1 for connect to home wirelless network
+  if(_stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
 
   Serial.println(_username);
   Serial.println(_password);
@@ -125,9 +118,7 @@ void loop() {
 
   if(lightStatus){
     analogWrite(D5, lightBrightness * 2.6);
-    if(light > lightThreshold){
-      lightStatus = 0;
-    }
+    if(light > lightThreshold){lightStatus = 0;}
   }else{
     analogWrite(D5, 0);
   }
