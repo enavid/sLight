@@ -27,10 +27,10 @@ int lightBrightness = 50;
 int lightThreshold  = 50;
 float light;
 
-String _default_username = "admin";
-String _default_password = "admin";
-String _default_ssid     = "Navid";
-String _default_pass     = "wWw.shatel.@com";
+String _username = "admin";
+String _password = "admin";
+String _ssid     = "Navid";
+String _pass     = "wWw.shatel.@com";
 
 unsigned long startMillis;  
 unsigned long currentMillis;
@@ -52,10 +52,10 @@ void setup() {
   analogWriteFreq(55);
 
 //******************** Readring data from eeprom ***********************
-  String _username = read_String(0);
-  String _password = read_String(50);
-  String _ssid     = read_String(100);
-  String _pass     = read_String(150);
+  _username = read_String(0);
+  _password = read_String(50);
+  _ssid     = read_String(100);
+  _pass     = read_String(150);
 
 //************************** Set up wirelless *************************
   
@@ -75,14 +75,7 @@ void setup() {
   Serial.print("Connected , Ip address: ");
   Serial.println(WiFi.localIP());
 // ======================================= wirte EEPROM  ===================================  
-//  writeString(0,"admin");
-//  delay(200);
-//  writeString(50, "admin");
-//  delay(200);
-//  writeString(100, "Navid");
-//  delay(200);
-//  writeString(150, "wWw.shatel.@com");
-//  delay(200);
+
 
   Serial.println(_username);
   Serial.println(_password);
