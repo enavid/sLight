@@ -45,8 +45,10 @@ void handleRegisterQuery(){
   Serial.println(server.arg("password"));
   Serial.println(server.arg("ssid"));
   Serial.println(server.arg("ssidpass"));
-
+  
   server.send(202);
+  Serial.println("Restart ...");
+  ESP.restart();
 }
   
 void handleMain(){handleIndex();}
