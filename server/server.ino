@@ -19,6 +19,7 @@
 #import "./client/index/style.h"
 
 #import "eepromFunction.h"
+#import "manageNetwork.h"
 
 //***************************************** Define global variable ************************
 
@@ -34,11 +35,9 @@ String _pass     = "wWw.shatel.@com";
 
 unsigned long startMillis;  
 unsigned long currentMillis;
-const unsigned long period = 2000;  
+const unsigned long period = 2000; 
 
-IPAddress staticIP(192, 168, 1, 50);
-IPAddress gateway (192, 168, 1, 1);
-IPAddress subnet  (255, 255, 255, 0);
+int statusWork = 1;
 
 ESP8266WebServer server(80);
 
@@ -58,22 +57,10 @@ void setup() {
   _pass     = read_String(150);
 
 //************************** Set up wirelless *************************
-  
+// state work = 1 for connect to home wirelless network
+if(statusWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
 
-  //WiFi.config(staticIP, gateway, subnet);
 
-  WiFi.begin(_ssid, _pass);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println();
-  WiFi.hostname("IOT");
-  Serial.printf("New hostname: %s\n", WiFi.hostname().c_str());
-  Serial.println();
-  Serial.print("Connected , Ip address: ");
-  Serial.println(WiFi.localIP());
 // ======================================= wirte EEPROM  ===================================  
 
 
