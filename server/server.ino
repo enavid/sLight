@@ -71,6 +71,13 @@ if(stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
   Serial.println(_ssid);
   Serial.println(_pass);
 //**************************** Handle web address *******************************
+if(stateWork == 0 ){
+  server.on("/", handleRegisterPage);
+  server.on("/register.css", handleRegisterCSS);
+  server.on("/register.js", handleRegisterJS);
+  server.on("/register-data", handleRegisterQuery);
+}
+else if(stateWork == 1){
   //Handle root request
   server.on("/", handleRoot);
   server.on("/main", handleMain);
@@ -93,7 +100,7 @@ if(stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
   server.on("/lightThreshold", handleLightThreshold);
   server.on("/lightBrightness", handleLightBrightness);
 
-
+}
   // Begin server
   server.begin();
   Serial.println("HTTP server started");
