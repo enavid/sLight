@@ -37,7 +37,7 @@ unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 2000; 
 
-int statusWork = 1;
+int stateWork = 0;
 
 ESP8266WebServer server(80);
 
@@ -57,8 +57,10 @@ void setup() {
   _pass     = read_String(150);
 
 //************************** Set up wirelless *************************
+// state work = 0 for create Access point
+if(stateWork == 0 ){ createAccessPoint();}
 // state work = 1 for connect to home wirelless network
-if(statusWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
+if(stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
 
 
 // ======================================= wirte EEPROM  ===================================  
