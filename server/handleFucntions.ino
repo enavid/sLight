@@ -48,6 +48,9 @@ void handleRegisterQuery(){
   
   server.send(202);
   Serial.println("Restart ...");
+  // write state work = 1 to connect to home wireless network and restart ESP8266
+  EEPROM.write(200,1);
+  EEPROM.commit();
   ESP.restart();
 }
   

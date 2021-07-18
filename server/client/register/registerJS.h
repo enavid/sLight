@@ -17,7 +17,7 @@ button.addEventListener('click', (e) => {
     if (username === '' || password === '' || confirmPassword === '' || ssidName === '' || ssidPassword === '') return alert('Please Check your input');
     if (password !== confirmPassword) return alert('Your password dont match!');
 
-    const url = location.href + '-data?' + `username=${username}&password=${password}&ssid=${ssidName}&ssidpass=${ssidPassword}`;
+    const url = location.href + 'setdata?' + `username=${username}&password=${password}&ssid=${ssidName}&ssidpass=${ssidPassword}`;
 
     fetch(url, {
         method: 'POST'

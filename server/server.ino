@@ -28,16 +28,17 @@ int lightBrightness = 50;
 int lightThreshold  = 50;
 float light;
 
-String _username = "admin";
-String _password = "admin";
-String _ssid     = "Navid";
-String _pass     = "wWw.shatel.@com";
+String _username   = "admin";
+String _password   = "admin";
+String _ssid       = "Navid";
+String _pass       = "wWw.shatel.@com";
+int    _stateWork  = 0;
 
 unsigned long startMillis;  
 unsigned long currentMillis;
 const unsigned long period = 2000; 
 
-int stateWork = 0;
+
 
 ESP8266WebServer server(80);
 
@@ -50,17 +51,19 @@ void setup() {
   pinMode(LIGHTSENSORPIN, INPUT);
   analogWriteFreq(55);
 
-//******************** Readring data from eeprom ***********************
-  _username = read_String(0);
-  _password = read_String(50);
-  _ssid     = read_String(100);
-  _pass     = read_String(150);
+//******************** Reading data from eeprom ***********************
+  _username  = read_String(0);
+  _password  = read_String(50);
+  _ssid      = read_String(100);
+  _pass      = read_String(150);
+  _stateWork = EEPROM.read(200);
+  
+//************************** Set up Access point *************************
 
-//************************** Set up wirelless *************************
 // state work = 0 for create Access point
-if(stateWork == 0 ){ createAccessPoint();}
+if(_stateWork == 0 ){ createAccessPoint();}
 // state work = 1 for connect to home wirelless network
-if(stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
+if(_stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
 
 
 // ======================================= wirte EEPROM  ===================================  
@@ -70,19 +73,21 @@ if(stateWork == 1){ connetToWifi(_ssid, _pass, "IOT");}
   Serial.println(_password);
   Serial.println(_ssid);
   Serial.println(_pass);
+  Serial.println(_stateWork);
 //**************************** Handle web address *******************************
-if(stateWork == 0 ){
+if(_stateWork == 0 ){
+  //Handle register page
   server.on("/", handleRegisterPage);
   server.on("/register.css", handleRegisterCSS);
   server.on("/register.js", handleRegisterJS);
-  server.on("/register-data", handleRegisterQuery);
+  server.on("/setdata", handleRegisterQuery);
 }
-else if(stateWork == 1){
+else if(_stateWork == 1){
   //Handle root request
   server.on("/", handleRoot);
   server.on("/main", handleMain);
   server.on("/register", handleRegisterPage);
-  server.on("/register-data", handleRegisterQuery);
+  server.on("/register/setdata", handleRegisterQuery);
 
   //Handle css request
   server.on("/style.css", handleCSS);
