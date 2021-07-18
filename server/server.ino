@@ -71,8 +71,8 @@ void setup() {
   Serial.print("Connected , Ip address: ");
   Serial.println(WiFi.localIP());
 // ======================================= wirte EEPROM  ===================================  
-//  writeString(0, _username);
-//  delay(100);
+  writeString(0,"Na");
+  delay(100);
 //  writeString(50, _password);
 //  delay(100);
 //  writeString(100, _ssid);
