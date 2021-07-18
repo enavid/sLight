@@ -13,10 +13,10 @@ void handleRegisterCSS(){server.send(200, "text/css", registerStyle);}
 void handleRegisterJS(){server.send(200, "text/js", registerJS);}
 
 void handleRegisterQuery(){
-  if(server.hasArg("username")) _username = server.arg("username");
-  if(server.hasArg("password")) _password = server.arg("password");
-  if(server.hasArg("ssid"))     _ssid     = server.arg("ssid");
-  if(server.hasArg("ssidpass")) _ssidPass = server.arg("ssidpass");
+  if(server.hasArg("username")) _default_username = server.arg("username");
+  if(server.hasArg("password")) _default_password = server.arg("password");
+  if(server.hasArg("ssid"))     _default_ssid     = server.arg("ssid");
+  if(server.hasArg("ssidpass")) _default_pass     = server.arg("ssidpass");
 
   Serial.println(server.arg("username"));
   Serial.println(server.arg("password"));

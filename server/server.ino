@@ -2,7 +2,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-
 #define LIGHTSENSORPIN A0
 #define PWMPIN D5
 
@@ -19,46 +18,56 @@
 #import "./client/index/app.h"
 #import "./client/index/style.h"
 
+#import "eepromFunction.h"
+
 //***************************************** Define global variable ************************
 
-int lightStatus = 0;
+int lightStatus     = 0;
 int lightBrightness = 50;
-int lightThreshold = 50;
+int lightThreshold  = 50;
 float light;
 
-String _username = "admin";
-String _password = "admin";
-String _ssid     = "Navid";
-String _ssidPass = "wWw.shatel.@com";
-
-
+String _default_username = "admin";
+String _default_password = "admin";
+String _default_ssid     = "Navid";
+String _default_pass     = "wWw.shatel.@com";
 
 unsigned long startMillis;  
 unsigned long currentMillis;
 const unsigned long period = 2000;  
 
 IPAddress staticIP(192, 168, 1, 50);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
+IPAddress gateway (192, 168, 1, 1);
+IPAddress subnet  (255, 255, 255, 0);
 
 ESP8266WebServer server(80);
 
 
 
+
+
+
 //  ================================= setup function ====================================
 void setup() {
+  
+//************************ Initialize modules **************************
   EEPROM.begin(512);
   Serial.begin(115200);
   pinMode(LIGHTSENSORPIN, INPUT);
-
-  
-  Serial.println();
-
   analogWriteFreq(55);
+
+//******************** Readring data from eeprom ***********************
+  String _username = read_String(0);
+  String _password = read_String(50);
+  String _ssid     = read_String(100);
+  String _pass     = read_String(150);
+
+//************************** Set up wirelless *************************
+  Serial.println();
 
   //WiFi.config(staticIP, gateway, subnet);
 
-  WiFi.begin(_ssid, _ssidPass);
+  WiFi.begin(_ssid, _pass);
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -71,27 +80,22 @@ void setup() {
   Serial.print("Connected , Ip address: ");
   Serial.println(WiFi.localIP());
 // ======================================= wirte EEPROM  ===================================  
-  writeString(0,"Na");
-  delay(100);
-//  writeString(50, _password);
-//  delay(100);
-//  writeString(100, _ssid);
-//  delay(100);
-//  writeString(150, _ssidPass);
-//  delay(100);
-  
-  String username = read_String(0);
-  String password = read_String(50);
-  String ssid     = read_String(100);
-  String ssidPass = read_String(150);
+//  writeString(0,"admin");
+//  delay(200);
+//  writeString(50, "admin");
+//  delay(200);
+//  writeString(100, "Navid");
+//  delay(200);
+//  writeString(150, "wWw.shatel.@com");
+//  delay(200);
 
-  Serial.println(username);
-  Serial.println(password);
-  Serial.println(ssid);
-  Serial.println(ssidPass);
+ 
   
-
-//======================================== Handle web root call ===========================
+  Serial.println(_username);
+  Serial.println(_password);
+  Serial.println(_ssid);
+  Serial.println(_pass);
+//**************************** Handle web address *******************************
   //Handle root request
   server.on("/", handleRoot);
   server.on("/main", handleMain);
