@@ -78,7 +78,7 @@ void handleLightBrightness() {
   server.send(200, "text/json", "{\"response\":" + String(lightBrightness) + "}"); 
 }
 void handleStatus() {
-  lightStatus == 0 ?
+  lightWork == 0 ?
     server.send(200, "text/json", "{\"response\": \"OFF\"}"):
     server.send(200, "text/json", "{\"response\": \"ON\"}");
 }

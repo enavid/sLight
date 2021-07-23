@@ -24,6 +24,7 @@
 //***************************************** Define global variable ************************
 
 int lightStatus     = 0;
+int lightWork       = 0;
 int lightBrightness = 50;
 int lightThreshold  = 50;
 float light;
@@ -119,12 +120,18 @@ void loop() {
       //Serial.println(light);  
       startMillis = currentMillis;  
   }
+  
 
   if(lightStatus){
-    analogWrite(D5, lightBrightness * 2.6);
-    if(light > lightThreshold){lightStatus = 0;}
+    if(light > lightThreshold){lightWork = 0;}
+    if(light < lightThreshold){lightWork = 1;}
   }else{
-    analogWrite(D5, 0);
+    lightWork = 0;
+  }
+  if(lightWork){
+   analogWrite(D5, lightBrightness * 2.6); 
+  }else{
+    analogWrite(D5, 0); 
   }
 
   if(digitalRead(button) == HIGH){
