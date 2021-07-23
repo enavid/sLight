@@ -21,7 +21,8 @@ button.addEventListener('click', (e) => {
         
         if (res.status === 403) return alert('user or password is wrong !');
         //location.href = res.url + `?username=${username}&password=${password}`;
-        console.log(res.url + `?username=${username}&password=${password}`);
+        //console.log(res.url + `?username=${username}&password=${password}`);
+        location.href = '/';
     })
 })
 )=====";

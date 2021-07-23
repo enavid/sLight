@@ -2,6 +2,7 @@
 #include <ESP8266WebServer.h>
 
 #define LIGHTSENSORPIN A0
+#define button D0
 #define PWMPIN D5
 
 //********************************* Add external file to programm ************************
@@ -46,6 +47,8 @@ void setup() {
   EEPROM.begin(512);
   Serial.begin(115200);
   pinMode(LIGHTSENSORPIN, INPUT);
+  pinMode(button, OUTPUT); 
+  digitalWrite(button, LOW); 
   analogWriteFreq(55);
 
 //******************** Reading data from eeprom ***********************
@@ -122,6 +125,15 @@ void loop() {
     if(light > lightThreshold){lightStatus = 0;}
   }else{
     analogWrite(D5, 0);
+  }
+
+  if(digitalRead(button) == HIGH){
+    delay(100);
+    if(digitalRead(button) == HIGH){
+      writeInteger(200, 0);
+      delay(1000);
+      ESP.restart();
+    }
   }
 
 }
